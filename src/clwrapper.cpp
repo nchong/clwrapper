@@ -155,7 +155,11 @@ float CLWrapper::memcpy_to_dev(cl_mem buffer, size_t size, const void *ptr, size
   cl_event e;
   ASSERT_NO_CL_ERROR(
     clEnqueueWriteBuffer(command_queue, buffer, blocking_write, offset, size, ptr, num_events_in_wait_list, event_wait_list, &e));
-  return time_and_release_event(e);
+  if (profiling) {
+    return time_and_release_event(e);
+  } else {
+    return 0;
+  }
 }
 
 float CLWrapper::memcpy_from_dev(cl_mem buffer, size_t size, void *ptr, size_t offset) {
@@ -165,7 +169,11 @@ float CLWrapper::memcpy_from_dev(cl_mem buffer, size_t size, void *ptr, size_t o
   cl_event e;
   ASSERT_NO_CL_ERROR(
     clEnqueueReadBuffer(command_queue, buffer, blocking_read, offset, size, ptr, num_events_in_wait_list, event_wait_list, &e));
-  return time_and_release_event(e);
+  if (profiling) {
+    return time_and_release_event(e);
+  } else {
+    return 0;
+  }
 }
 
 float CLWrapper::copy_buffer(cl_mem src, cl_mem dst, size_t cb) {
@@ -310,6 +318,18 @@ void CLWrapper::set_kernel_arg(cl_kernel k, int i, int &n) {
   LOG(LOG_INFO, "Kernel arg%d of %s is int %d", i, name_of_kernel(k).c_str(), n);
   ASSERT_NO_CL_ERROR(
     clSetKernelArg(k, i, sizeof(int), &n));
+}
+
+void CLWrapper::set_kernel_arg(cl_kernel k, int i, float &n) {
+  LOG(LOG_INFO, "Kernel arg%d of %s is float %f", i, name_of_kernel(k).c_str(), n);
+  ASSERT_NO_CL_ERROR(
+    clSetKernelArg(k, i, sizeof(float), &n));
+}
+
+void CLWrapper::set_kernel_arg(cl_kernel k, int i, double &n) {
+  LOG(LOG_INFO, "Kernel arg%d of %s is double %f", i, name_of_kernel(k).c_str(), n);
+  ASSERT_NO_CL_ERROR(
+    clSetKernelArg(k, i, sizeof(double), &n));
 }
 
 void CLWrapper::set_kernel_arg(cl_kernel k, int i, cl_mem &m) {

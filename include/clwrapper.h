@@ -46,6 +46,8 @@ class CLWrapper {
     void attach_command_queue(cl_command_queue_properties properties=0);
 
     void set_kernel_arg(cl_kernel k, int i, int &n);
+    void set_kernel_arg(cl_kernel k, int i, float &n);
+    void set_kernel_arg(cl_kernel k, int i, double &n);
     void set_kernel_arg(cl_kernel k, int i, cl_mem &m);
     void set_kernel_arg(cl_kernel k, int i, size_t &l);
 

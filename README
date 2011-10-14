@@ -1,1 +1,7 @@
 A small wrapper for OpenCL
+==========================
+
+OpenCL is (super) verbose so everyone ends up writing a wrapper class.
+Here's my crack at it!
+
+See BUILD_README for directions on building the library and test/ for examples of how to use it.
