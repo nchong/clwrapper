@@ -184,21 +184,16 @@ void CLWrapper::create_all_kernels(cl_program program) {
     clCreateKernelsInProgram(program, /*num_kernels=*/0, /*kernels=*/NULL, &num_kernels));
   cl_kernel *kernels = new cl_kernel[num_kernels];
   assert(kernels);
+  LOG(LOG_INFO, "Creating %d kernels", num_kernels);
   ASSERT_NO_CL_ERROR(
     clCreateKernelsInProgram(program, num_kernels, kernels, NULL));
   for (int i=0; i<(int)num_kernels; i++) {
-    size_t size;
-    ASSERT_NO_CL_ERROR(
-      clGetKernelInfo(kernels[i], CL_KERNEL_FUNCTION_NAME, /*size=*/0, /*value=*/NULL, &size));
-    char *kernel_name = new char[size];
-    ASSERT_NO_CL_ERROR(
-      clGetKernelInfo(kernels[i], CL_KERNEL_FUNCTION_NAME, size, kernel_name, NULL));
+    string kernel_name = name_of_kernel(kernels[i]);
     map<string,cl_kernel>::iterator it = kernelmap.find(kernel_name);
     if (it != kernelmap.end()) {
-      LOG(LOG_ERR, "Kernel name clash [%s]", kernel_name);
+      LOG(LOG_ERR, "Kernel name clash [%s]", kernel_name.c_str());
     }
     kernelmap.insert(make_pair(kernel_name, kernels[i]));
-    delete[] kernel_name;
   }
   delete[] kernels;
 }
@@ -221,6 +216,18 @@ cl_kernel &CLWrapper::kernel_of_name(const string name) {
     LOG(LOG_FATAL, "Could not find kernel [%s]", name.c_str());
   }
   return it->second;
+}
+
+const string CLWrapper::name_of_kernel(cl_kernel kernel) {
+  size_t size;
+  ASSERT_NO_CL_ERROR(
+    clGetKernelInfo(kernel, CL_KERNEL_FUNCTION_NAME, /*size=*/0, /*value=*/NULL, &size));
+  char *kernel_name = new char[size];
+  ASSERT_NO_CL_ERROR(
+    clGetKernelInfo(kernel, CL_KERNEL_FUNCTION_NAME, size, kernel_name, NULL));
+  string s(kernel_name);
+  delete[] kernel_name;
+  return s;
 }
 
 void CLWrapper::run_kernel(cl_kernel kernel, 
@@ -296,6 +303,24 @@ void CLWrapper::attach_command_queue(cl_command_queue_properties properties) {
   command_queue = clCreateCommandQueue(context, devices[d], properties, &ret);
   assert(command_queue);
   ASSERT_NO_CL_ERROR(ret);
+}
+
+void CLWrapper::set_kernel_arg(cl_kernel k, int i, int &n) {
+  LOG(LOG_INFO, "Kernel arg%d of %s is int %d", i, name_of_kernel(k).c_str(), n);
+  ASSERT_NO_CL_ERROR(
+    clSetKernelArg(k, i, sizeof(int), &n));
+}
+
+void CLWrapper::set_kernel_arg(cl_kernel k, int i, cl_mem &m) {
+  LOG(LOG_INFO, "Kernel arg%d of %s is cl_mem", i, name_of_kernel(k).c_str());
+  ASSERT_NO_CL_ERROR(
+    clSetKernelArg(k, i, sizeof(cl_mem), (void *)&m));
+}
+
+void CLWrapper::set_kernel_arg(cl_kernel k, int i, size_t &sz) {
+  LOG(LOG_INFO, "Kernel arg%d of %s is local mem of size %lu", i, name_of_kernel(k).c_str(), sz);
+  ASSERT_NO_CL_ERROR(
+    clSetKernelArg(k, i, sz, NULL));
 }
 
 // --------------------------------------------------------------------------
