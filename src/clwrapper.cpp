@@ -2,6 +2,7 @@
 #include "clerror.h"
 #include "log.h"
 
+#include <algorithm>
 #include <cassert>
 #include <fstream>
 #include <iostream>
