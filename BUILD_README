@@ -1,0 +1,11 @@
+Building the clwrapper library
+==============================
+
+Hopefully this should be simple!
+    $ make
+... that's it!
+
+This will build lib/libclwrapper.so which you should link into your application like so:
+    $ g++ <flags for OpenCL> yourapp.cpp -Lpath/to/clwrapper/lib/ -lclwrapper
+
+Look inside the test/ directory for some examples.
