@@ -6,7 +6,8 @@ override CXXFLAGS += -O2 -Wall -Wextra -Werror -pedantic -Wno-variadic-macros -D
 # OPENCL LIBRARIES BASED ON OS
 UNAME := $(shell uname)
 ifeq ($(UNAME), Darwin)
-OPENCL = -framework OpenCL
+OPENCL_LIB = -framework OpenCL
+OPENCL_INC =
 SHARED = -dynamiclib
 endif
 
@@ -17,6 +18,7 @@ AMDAPP ?= /opt/AMDAPP/include
 	@if [ ! -d "${AMDAPP}" ]; then \
 		echo "ERROR: set AMDAPP variable."; exit 1; \
 	fi
-OPENCL = -l OpenCL -I ${AMDAPP}
+OPENCL_LIB = -l OpenCL 
+OPENCL_INC = -I ${AMDAPP}
 SHARED = -shared
 endif
