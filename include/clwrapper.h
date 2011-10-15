@@ -51,6 +51,10 @@ class CLWrapper {
     void set_kernel_arg(cl_kernel k, int i, cl_mem &m);
     void set_kernel_arg(cl_kernel k, int i, size_t &l);
 
+    // don't support copying
+    CLWrapper(const CLWrapper& that);
+    CLWrapper& operator=(const CLWrapper& that);
+
   public:
     CLWrapper(int p=0, int d=0, bool profiling=false);
     ~CLWrapper();
