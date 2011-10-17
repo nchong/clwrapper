@@ -60,7 +60,9 @@ class CLWrapper {
     ~CLWrapper();
     cl_program &compile(const char *fname,
         const string &extra_flags="",
-        map<string,string> substitutions=(map<string,string>()),
+        bool all_devices=false);
+    cl_program &compile_from_string(const char *program_string,
+        const string &extra_flags="",
         bool all_devices=false);
 
     cl_mem &dev_malloc(size_t size, cl_mem_flags flags=CL_MEM_READ_WRITE);

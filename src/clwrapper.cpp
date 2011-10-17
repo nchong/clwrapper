@@ -53,44 +53,11 @@ CLWrapper::~CLWrapper() {
   delete[] devices;
 }
 
-cl_program &CLWrapper::compile(const char *fname,
-    const string &extra_flags, map<string,string> substitutions,
-    bool all_devices) {
-  if (all_devices) {
-    LOG(LOG_INFO, "Compiling file <%s> for all devices", fname);
-  } else {
-    LOG(LOG_INFO, "Compiling file <%s> for device %d", fname, d);
-  }
-
-  // read in file to string (via buf)
-  ifstream file(fname, ios::binary);
-  if (!file.is_open()) {
-    LOG(LOG_FATAL, "Unable to open file <%s>.", fname);
-  }
-  std::ostringstream buf;
-  buf << file.rdbuf() << endl;
-  string s = buf.str();
-
-  // perform text substitutions s/sub/replace
-  // NB: we only replace the first instance of sub
-  map<string,string>::iterator i;
-  for (i = substitutions.begin(); i != substitutions.end(); i++) {
-    string sub = i->first;
-    string replace = i->second;
-    if (s.find(sub) != string::npos) {
-      s.replace(s.find(sub), sub.length(), replace);
-      LOG(LOG_INFO, "Substituting [%s] with [%s]", sub.c_str(), replace.c_str());
-    } else {
-      LOG(LOG_INFO, "Could not find [%s] to substitute with [%s]", sub.c_str(), replace.c_str());
-    }
-  }
-
-  // now convert to char array
-  char *program_buf = (char *) s.c_str();
-
+cl_program &CLWrapper::compile_from_string(const char *program_string,
+    const string &extra_flags, bool all_devices) {
   cl_int ret;
-  //lengths=NULL -> program_buf is null terminated
-  cl_program program = clCreateProgramWithSource(context, /*count=*/1, (const char **) &program_buf, /*lengths=*/NULL, &ret );
+  //lengths=NULL -> program_string is null terminated
+  cl_program program = clCreateProgramWithSource(context, /*count=*/1, (const char **) &program_string, /*lengths=*/NULL, &ret );
   assert(program);
   ASSERT_NO_CL_ERROR(ret);
   programs.push_back(program);
@@ -121,6 +88,27 @@ cl_program &CLWrapper::compile(const char *fname,
   ASSERT_NO_CL_ERROR(
     clBuildProgram(program, ndev, dev, flags.str().c_str(), /*pfn_notify=*/NULL, /*user_data=*/NULL));
   return programs.back();
+
+}
+
+cl_program &CLWrapper::compile(const char *fname,
+    const string &extra_flags, bool all_devices) {
+  if (all_devices) {
+    LOG(LOG_INFO, "Compiling file <%s> for all devices", fname);
+  } else {
+    LOG(LOG_INFO, "Compiling file <%s> for device %d", fname, d);
+  }
+
+  // read in file to string (via buf)
+  ifstream file(fname, ios::binary);
+  if (!file.is_open()) {
+    LOG(LOG_FATAL, "Unable to open file <%s>.", fname);
+  }
+  std::ostringstream buf;
+  buf << file.rdbuf() << endl;
+  string s = buf.str();
+
+  return compile_from_string(s.c_str(), extra_flags, all_devices);
 }
 
 cl_mem &CLWrapper::dev_malloc(size_t size, cl_mem_flags flags) {
