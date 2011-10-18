@@ -1,6 +1,7 @@
 #include "clwrapper.h"
 
 #include <cassert>
+#include <cmath>
 #include <cstdio>
 
 void host_saxpy(float *x, float *y, int n, float a) {
