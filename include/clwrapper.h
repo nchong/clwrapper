@@ -239,6 +239,84 @@ class CLWrapper {
       set_kernel_arg(k, 12, a12);
     }
 
+    template< typename T0, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10, typename T11, typename T12, typename T13 >
+    inline void kernel_arg(cl_kernel k, T0 &a0, T1 &a1, T2 &a2, T3 &a3, T4 &a4, T5 &a5, T6 &a6, T7 &a7, T8 &a8, T9 &a9, T10 &a10, T11 &a11, T12 &a12, T13 &a13 ) {
+      set_kernel_arg(k, 0, a0);
+      set_kernel_arg(k, 1, a1);
+      set_kernel_arg(k, 2, a2);
+      set_kernel_arg(k, 3, a3);
+      set_kernel_arg(k, 4, a4);
+      set_kernel_arg(k, 5, a5);
+      set_kernel_arg(k, 6, a6);
+      set_kernel_arg(k, 7, a7);
+      set_kernel_arg(k, 8, a8);
+      set_kernel_arg(k, 9, a9);
+      set_kernel_arg(k, 10, a10);
+      set_kernel_arg(k, 11, a11);
+      set_kernel_arg(k, 12, a12);
+      set_kernel_arg(k, 13, a13);
+    }
+
+    template< typename T0, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10, typename T11, typename T12, typename T13, typename T14 >
+    inline void kernel_arg(cl_kernel k, T0 &a0, T1 &a1, T2 &a2, T3 &a3, T4 &a4, T5 &a5, T6 &a6, T7 &a7, T8 &a8, T9 &a9, T10 &a10, T11 &a11, T12 &a12, T13 &a13, T14 &a14 ) {
+      set_kernel_arg(k, 0, a0);
+      set_kernel_arg(k, 1, a1);
+      set_kernel_arg(k, 2, a2);
+      set_kernel_arg(k, 3, a3);
+      set_kernel_arg(k, 4, a4);
+      set_kernel_arg(k, 5, a5);
+      set_kernel_arg(k, 6, a6);
+      set_kernel_arg(k, 7, a7);
+      set_kernel_arg(k, 8, a8);
+      set_kernel_arg(k, 9, a9);
+      set_kernel_arg(k, 10, a10);
+      set_kernel_arg(k, 11, a11);
+      set_kernel_arg(k, 12, a12);
+      set_kernel_arg(k, 13, a13);
+      set_kernel_arg(k, 14, a14);
+    }
+
+    template< typename T0, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10, typename T11, typename T12, typename T13, typename T14, typename T15 >
+    inline void kernel_arg(cl_kernel k, T0 &a0, T1 &a1, T2 &a2, T3 &a3, T4 &a4, T5 &a5, T6 &a6, T7 &a7, T8 &a8, T9 &a9, T10 &a10, T11 &a11, T12 &a12, T13 &a13, T14 &a14, T15 &a15 ) {
+      set_kernel_arg(k, 0, a0);
+      set_kernel_arg(k, 1, a1);
+      set_kernel_arg(k, 2, a2);
+      set_kernel_arg(k, 3, a3);
+      set_kernel_arg(k, 4, a4);
+      set_kernel_arg(k, 5, a5);
+      set_kernel_arg(k, 6, a6);
+      set_kernel_arg(k, 7, a7);
+      set_kernel_arg(k, 8, a8);
+      set_kernel_arg(k, 9, a9);
+      set_kernel_arg(k, 10, a10);
+      set_kernel_arg(k, 11, a11);
+      set_kernel_arg(k, 12, a12);
+      set_kernel_arg(k, 13, a13);
+      set_kernel_arg(k, 14, a14);
+      set_kernel_arg(k, 15, a15);
+    }
+
+    template< typename T0, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10, typename T11, typename T12, typename T13, typename T14, typename T15, typename T16 >
+    inline void kernel_arg(cl_kernel k, T0 &a0, T1 &a1, T2 &a2, T3 &a3, T4 &a4, T5 &a5, T6 &a6, T7 &a7, T8 &a8, T9 &a9, T10 &a10, T11 &a11, T12 &a12, T13 &a13, T14 &a14, T15 &a15, T16 &a16 ) {
+      set_kernel_arg(k, 0, a0);
+      set_kernel_arg(k, 1, a1);
+      set_kernel_arg(k, 2, a2);
+      set_kernel_arg(k, 3, a3);
+      set_kernel_arg(k, 4, a4);
+      set_kernel_arg(k, 5, a5);
+      set_kernel_arg(k, 6, a6);
+      set_kernel_arg(k, 7, a7);
+      set_kernel_arg(k, 8, a8);
+      set_kernel_arg(k, 9, a9);
+      set_kernel_arg(k, 10, a10);
+      set_kernel_arg(k, 11, a11);
+      set_kernel_arg(k, 12, a12);
+      set_kernel_arg(k, 13, a13);
+      set_kernel_arg(k, 14, a14);
+      set_kernel_arg(k, 15, a15);
+      set_kernel_arg(k, 16, a16);
+    }
+
 };
 
 #endif
