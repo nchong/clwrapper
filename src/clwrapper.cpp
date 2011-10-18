@@ -13,7 +13,7 @@
 
 using namespace std;
 
-CLWrapper::CLWrapper(int p, int d, bool profiling) : 
+CLWrapper::CLWrapper(int p, int d, bool profiling, bool all_devices) :
   num_platforms(0), platforms(NULL), p(p),
   num_devices(0), devices(NULL), d(d),
   profiling(profiling) {
@@ -27,7 +27,7 @@ CLWrapper::CLWrapper(int p, int d, bool profiling) :
   devices = get_device_list(platforms[p]);
   assert(d < (int)num_devices);
 
-  attach_context();
+  attach_context(all_devices);
   attach_command_queue(profiling ? CL_QUEUE_PROFILING_ENABLE : 0);
 }
 

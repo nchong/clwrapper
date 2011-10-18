@@ -56,7 +56,7 @@ class CLWrapper {
     CLWrapper& operator=(const CLWrapper& that);
 
   public:
-    CLWrapper(int p=0, int d=0, bool profiling=false);
+    CLWrapper(int p=0, int d=0, bool profiling=false, bool all_devices=false);
     ~CLWrapper();
     cl_program &compile(const char *fname,
         const string &extra_flags="",
