@@ -85,8 +85,39 @@ cl_program &CLWrapper::compile_from_string(const char *program_string,
   cl_uint ndev = (all_devices ? num_devices : 1);
   cl_device_id *dev = (all_devices ? devices : &devices[d]);
   //pfn_notify=NULL -> call is blocking
-  ASSERT_NO_CL_ERROR(
-    clBuildProgram(program, ndev, dev, flags.str().c_str(), /*pfn_notify=*/NULL, /*user_data=*/NULL));
+  cl_uint builderr = clBuildProgram(program, ndev, dev, flags.str().c_str(), /*pfn_notify=*/NULL, /*user_data=*/NULL);
+
+  //print out build logs
+  if (builderr != CL_SUCCESS) {
+    printf("> builderr: %s\n", clGetErrorString(builderr));
+
+    for (int i=0; i<(int)num_devices; i++) {
+      if (all_devices || i == d) {
+        printf("> ---------\n");
+        printf("> device %d\n", i);
+        printf("> ---------\n");
+        cl_build_status status;
+        ASSERT_NO_CL_ERROR(
+          clGetProgramBuildInfo(program, devices[i], CL_PROGRAM_BUILD_STATUS, sizeof(status), &status, NULL));
+        printf(">\t build_status: %s\n", clGetBuildStatusString(status));
+
+        size_t size;
+        ASSERT_NO_CL_ERROR(
+          clGetProgramBuildInfo(program, devices[i], CL_PROGRAM_BUILD_LOG, 0, NULL, &size));
+        char *build_log = new char[size+1];
+        ASSERT_NO_CL_ERROR(
+          clGetProgramBuildInfo(program, devices[i], CL_PROGRAM_BUILD_LOG, size, build_log, NULL));
+        build_log[size] = '\0';
+        printf(">\t build_log:\n");
+        printf("%s\n", build_log);
+        printf("-----\n");
+        delete[] build_log;
+      }
+    }
+
+    exit(1);
+  }
+
   return programs.back();
 
 }

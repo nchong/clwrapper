@@ -13,6 +13,7 @@
 #include <cassert>
 
 const char *clGetErrorString(cl_int err);
+const char *clGetBuildStatusString(cl_build_status status);
 
 #define ASSERT_NO_CL_ERROR( callReturningErrorstatus ) {          \
   cl_int err = callReturningErrorstatus;                         \
