@@ -53,6 +53,10 @@ CLWrapper::~CLWrapper() {
   delete[] devices;
 }
 
+bool CLWrapper::has_profiling() {
+  return profiling;
+}
+
 cl_program &CLWrapper::compile_from_string(const char *program_string,
     const string &extra_flags, bool all_devices) {
   cl_int ret;
@@ -286,7 +290,11 @@ float CLWrapper::run_kernel_with_timing(cl_kernel kernel,
     num_events_in_wait_list,
     event_wait_list,
     &e);
-  return time_and_release_event(e);
+  if (profiling) {
+    return time_and_release_event(e);
+  } else {
+    return 0;
+  }
 }
 
 // --------------------------------------------------------------------------
