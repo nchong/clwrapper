@@ -1,14 +1,16 @@
 # COMPILE OPTIONS
 ifeq ($(CXX), icc)
 CXX = icc
-override CXXFLAGS += -Wall
+override CXXFLAGS += -O2
+override CXXFLAGS += -Wall -Wcheck
 else
 CXX = g++
+override CXXFLAGS += -O2
 override CXXFLAGS += -Wall -Wextra -Werror -pedantic -Wno-variadic-macros
 endif
 LOG_LEVEL = LOG_WARN
-override CXXFLAGS += -O2 -DLOG_LEVEL=$(LOG_LEVEL)
-
+override CXXFLAGS += -DLOG_LEVEL=$(LOG_LEVEL)
+override CXXFLAGS += -fPIC
 
 # OPENCL LIBRARIES BASED ON OS
 UNAME := $(shell uname)
