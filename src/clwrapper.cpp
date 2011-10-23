@@ -234,7 +234,7 @@ cl_kernel &CLWrapper::create_kernel(cl_program program, const char*kernel_name) 
   cl_int ret;
   cl_kernel k = clCreateKernel(program, kernel_name, &ret);
   ASSERT_NO_CL_ERROR(ret);
-  map<string,cl_kernel>::iterator it = kernelmap.find(kernel_name);
+  map<string,cl_kernel>::iterator it = kernelmap.find(string(kernel_name));
   if (it != kernelmap.end()) {
     LOG(LOG_ERR, "Kernel name clash [%s]", kernel_name);
   }
