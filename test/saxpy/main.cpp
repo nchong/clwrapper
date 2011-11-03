@@ -3,6 +3,7 @@
 #include <cassert>
 #include <cmath>
 #include <cstdio>
+#include <iostream>
 
 void host_saxpy(float *x, float *y, int n, float a) {
   for (int i=0; i<n; i++) {
@@ -11,6 +12,8 @@ void host_saxpy(float *x, float *y, int n, float a) {
 }
 
 int main() {
+  std::cout << clinfo() << std::endl;
+
   // test data
   int N = 16;
   float *x = new float[N];

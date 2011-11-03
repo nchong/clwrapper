@@ -22,12 +22,11 @@ endif
 
 ifeq ($(UNAME), Linux)
 .PHONY: .check-env
-AMDAPP ?= /opt/AMDAPP/include
 .check-env:
-	@if [ ! -d "${AMDAPP}" ]; then \
-		echo "ERROR: set AMDAPP variable."; exit 1; \
+	@if [ ! -d "$(CLDIR)" ]; then \
+		echo "ERROR: set CLDIR variable."; exit 1; \
 	fi
-OPENCL_LIB = -lOpenCL 
-OPENCL_INC = -I ${AMDAPP}
+OPENCL_LIB = -L$(CLDIR)/lib -lOpenCL
+OPENCL_INC = -I $(CLDIR)/include
 SHARED = -shared
 endif

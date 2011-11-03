@@ -66,6 +66,8 @@ class CLWrapper {
         const string &extra_flags=string(""),
         bool all_devices=false);
 
+    void flush_command_queue();
+
     cl_mem &dev_malloc(size_t size, cl_mem_flags flags=CL_MEM_READ_WRITE);
     void dev_free(cl_mem m);
     void free_all_memobjs();
