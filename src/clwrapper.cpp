@@ -431,7 +431,9 @@ string clinfo() {
   // get platform list
   cl_platform_id *platforms = get_platform_list();
 
-  // query devices
+  // query platform and devices
+  char platform_name[1024];
+  char platform_version[1024];
   char device_name[1024];
   char device_vendor[1024];
   cl_uint num_cores;
@@ -439,8 +441,15 @@ string clinfo() {
   cl_long global_mem_size;
   cl_ulong local_mem_size;
   for (int i=0; i<(int)num_platforms; i++) {
+    ASSERT_NO_CL_ERROR(
+      clGetPlatformInfo(platforms[i], CL_PLATFORM_NAME, sizeof(platform_name), platform_name, /*param_value_size_ret=*/NULL));
+    ASSERT_NO_CL_ERROR(
+      clGetPlatformInfo(platforms[i], CL_PLATFORM_VERSION, sizeof(platform_version), platform_version, /*param_value_size_ret=*/NULL));
     cl_uint num_devices = query_num_devices(platforms[i]);
-    ss << "Platform " << i << " has " << num_devices << " device" << (num_devices == 1 ? "":"s") << "\n";
+    ss << "Platform " << i << "\n";
+    ss << "Name: " << platform_name << "\n";
+    ss << "Version: " << platform_version << "\n";
+    ss << "Number of devices: " << num_devices << "\n";
 
     // get device list
     cl_device_id *devices = get_device_list(platforms[i]);
