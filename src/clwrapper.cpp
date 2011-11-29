@@ -427,7 +427,7 @@ string clinfo() {
   // PLATFORMS
   // query number of platforms
   cl_uint num_platforms = query_num_platforms();
-  ss << "Found " << num_platforms << " OpenCL platform" << (num_platforms == 1 ?  "":"s") << "\n";
+  ss << "# Found " << num_platforms << " OpenCL platform" << (num_platforms == 1 ?  "":"s") << "\n";
   // get platform list
   cl_platform_id *platforms = get_platform_list();
 
@@ -446,10 +446,10 @@ string clinfo() {
     ASSERT_NO_CL_ERROR(
       clGetPlatformInfo(platforms[i], CL_PLATFORM_VERSION, sizeof(platform_version), platform_version, /*param_value_size_ret=*/NULL));
     cl_uint num_devices = query_num_devices(platforms[i]);
-    ss << "Platform " << i << "\n";
-    ss << "Name: " << platform_name << "\n";
-    ss << "Version: " << platform_version << "\n";
-    ss << "Number of devices: " << num_devices << "\n";
+    ss << "# Platform " << i << "\n";
+    ss << "# Name: " << platform_name << "\n";
+    ss << "# Version: " << platform_version << "\n";
+    ss << "# Number of devices: " << num_devices << "\n";
 
     // get device list
     cl_device_id *devices = get_device_list(platforms[i]);
@@ -467,13 +467,13 @@ string clinfo() {
       ASSERT_NO_CL_ERROR(
           clGetDeviceInfo(devices[j], CL_DEVICE_LOCAL_MEM_SIZE, sizeof(local_mem_size), &local_mem_size, /*param_value_size_ret=*/NULL));
 
-      ss << "Device " << j << "\n";
-      ss << "\tName: " << device_name << "\n";
-      ss << "\tVendor: " << device_vendor << "\n";
-      ss << "\tCompute units: " << num_cores << "\n";
-      ss << "\tClock frequency: " << clk_freq << " MHz\n";
-      ss << "\tGlobal memory: " << (global_mem_size>>30) << "GB\n";
-      ss << "\tLocal memory: " <<  (local_mem_size>>10) << "KB\n";
+      ss << "# Device " << j << "\n";
+      ss << "# \tName: " << device_name << "\n";
+      ss << "# \tVendor: " << device_vendor << "\n";
+      ss << "# \tCompute units: " << num_cores << "\n";
+      ss << "# \tClock frequency: " << clk_freq << " MHz\n";
+      ss << "# \tGlobal memory: " << (global_mem_size>>30) << "GB\n";
+      ss << "# \tLocal memory: " <<  (local_mem_size>>10) << "KB\n";
     }
     delete[] devices;
   }
