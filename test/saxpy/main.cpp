@@ -28,7 +28,7 @@ int main() {
 
   // initialise for device 0 on platform 0, with profiling (for timing) on.
   // this creates a context and command queue
-  int platform = 1;
+  int platform = 0;
   int device = 0;
   bool profiling = true;
   CLWrapper clw(platform, device, profiling);
